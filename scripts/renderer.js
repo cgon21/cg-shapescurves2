@@ -283,13 +283,7 @@ class Renderer {
     // framebuffer:  canvas ctx image data
     drawVertex(v, color, framebuffer) {
         // TODO: draw some symbol (e.g. small rectangle, two lines forming an X, ...) centered at position `v`
-        v1 = { x: Math.round(v.x - 10), y: Math.round(v.y + 10) };
-        v2 = { x: Math.round(v.x + 10), y: Math.round(v.y + 10) };
-        v3 = { x: Math.round(v.x - 10), y: Math.round(v.y - 10) };
-        v4 = { x: Math.round(v.x + 10), y: Math.round(v.y - 10) };
-
-        this.drawLine(v1, v3, color, framebuffer);
-        this.drawLine(v2, v4, color, framebuffer);
+        drawCircle(v, 3, 20, color, framebuffer);
     }
 
     /***************************************************************
