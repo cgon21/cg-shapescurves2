@@ -232,7 +232,6 @@ class Renderer {
             this.drawVertex({ x: 393, y: 235 }, black, framebuffer);
 
             // a
-            this.drawVertex({ x: 580, y: 250 }, black, framebuffer);
             this.drawVertex({ x: 645, y: 315 }, black, framebuffer);
             this.drawVertex({ x: 645, y: 185 }, black, framebuffer);
 
@@ -286,6 +285,29 @@ class Renderer {
             x: center.x + radius * Math.cos(0),
             y: center.y + radius * Math.sin(0)
         };
+        if (this.show_points) {
+            this.drawVertex(center, color, framebuffer);
+        }
+        for (let i = 1; i <= num_edges; i++) {
+            currentAngle = i * angleStep;
+            let x = center.x + radius * Math.cos(currentAngle);
+            let y = center.y + radius * Math.sin(currentAngle);
+            let currentPoint = { x: Math.round(x), y: Math.round(y) };
+            this.drawLine(previousPoint, currentPoint, color, framebuffer);
+            if (this.show_points) {
+                this.drawVertex(previousPoint, color, framebuffer);
+            }
+            previousPoint = currentPoint;
+        }
+    }
+    drawCircle_vertex(center, radius, num_edges, color, framebuffer) {
+        // TODO: draw a sequence of straight lines to approximate a circle
+        let angleStep = (2 * Math.PI) / num_edges;
+        let currentAngle = 0;
+        let previousPoint = {
+            x: center.x + radius * Math.cos(0),
+            y: center.y + radius * Math.sin(0)
+        };
 
         for (let i = 1; i <= num_edges; i++) {
             currentAngle = i * angleStep;
@@ -325,7 +347,7 @@ class Renderer {
     // framebuffer:  canvas ctx image data
     drawVertex(v, color, framebuffer) {
         // TODO: draw some symbol (e.g. small rectangle, two lines forming an X, ...) centered at position `v`
-        this.drawCircle(v, 3, 20, color, framebuffer);
+        this.drawCircle_vertex(v, 3, 20, color, framebuffer);
     }
 
     /***************************************************************
