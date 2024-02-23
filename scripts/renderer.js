@@ -300,24 +300,6 @@ class Renderer {
             previousPoint = currentPoint;
         }
     }
-    drawCircle_vertex(center, radius, num_edges, color, framebuffer) {
-        // TODO: draw a sequence of straight lines to approximate a circle
-        let angleStep = (2 * Math.PI) / num_edges;
-        let currentAngle = 0;
-        let previousPoint = {
-            x: center.x + radius * Math.cos(0),
-            y: center.y + radius * Math.sin(0)
-        };
-
-        for (let i = 1; i <= num_edges; i++) {
-            currentAngle = i * angleStep;
-            let x = center.x + radius * Math.cos(currentAngle);
-            let y = center.y + radius * Math.sin(currentAngle);
-            let currentPoint = { x: Math.round(x), y: Math.round(y) };
-            this.drawLine(previousPoint, currentPoint, color, framebuffer);
-            previousPoint = currentPoint;
-        }
-    }
 
     // vertex_list:  array of object [{x: __, y: __}, {x: __, y: __}, ..., {x: __, y: __}]
     // color:        array of int [R, G, B, A]
@@ -347,7 +329,25 @@ class Renderer {
     // framebuffer:  canvas ctx image data
     drawVertex(v, color, framebuffer) {
         // TODO: draw some symbol (e.g. small rectangle, two lines forming an X, ...) centered at position `v`
-        this.drawCircle_vertex(v, 3, 20, color, framebuffer);
+        let radius = 3;
+        let num_edges = 20;
+
+        let angleStep = (2 * Math.PI) / num_edges;
+        let currentAngle = 0;
+
+        let previousPoint = {
+            x: v.x + radius * Math.cos(0),
+            y: v.y + radius * Math.sin(0)
+        };
+
+        for (let i = 1; i <= num_edges; i++) {
+            currentAngle = i * angleStep;
+            let x = v.x + radius * Math.cos(currentAngle);
+            let y = v.y + radius * Math.sin(currentAngle);
+            let currentPoint = { x: Math.round(x), y: Math.round(y) };
+            this.drawLine(previousPoint, currentPoint, color, framebuffer);
+            previousPoint = currentPoint;
+        }
     }
 
     /***************************************************************
